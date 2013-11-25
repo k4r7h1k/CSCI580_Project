@@ -152,22 +152,18 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Application4.h" />
-    <ClInclude Include="Character.h" />
     <ClInclude Include="CS580HW.h" />
     <ClInclude Include="CS580HWDoc.h" />
     <ClInclude Include="CS580HWView.h" />
     <ClInclude Include="disp.h" />
     <ClInclude Include="gz.h" />
-    <ClInclude Include="GzMatrix.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="rend.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RotateDlg.h" />
     <ClInclude Include="ScaleDlg.h" />
-    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="TranslateDlg.h" />
-    <ClInclude Include="TriangleMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="res\CS580HW.ico" />
@@ -182,9 +178,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties RESOURCE_FILE="CS580HW.rc" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

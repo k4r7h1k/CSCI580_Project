@@ -31,7 +31,6 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CCS580HWView)
 	public:
-	virtual void OnPrint(CDC *pDC, CPrintInfo *pInfo);
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void OnInitialUpdate();
@@ -56,10 +55,6 @@ protected:
 	afx_msg void OnScale();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
-public:
-	afx_msg void OnRenderAnimate();
-	afx_msg void OnRenderAnimate32777();
-	afx_msg void OnRenderAnimate32779();
 };
 
 #ifndef _DEBUG  // debug version in CS580HWView.cpp

@@ -44,7 +44,7 @@ int Application4::Initialize()
 	GzCamera	camera;  
 	int		xRes, yRes;		/* display parameters */ 
 	armadillion=new CharacterModel("arma2.obj","skeleton2.out","attachment2.out");
-	//armadillion->characterMoveHands();
+	armadillion->characterMoveHands();
 	GzToken		nameListShader[9]; 	/* shader attribute names */
 	GzPointer   valueListShader[9];		/* shader attribute pointers */
 	GzToken     nameListLights[10];		/* light info */
@@ -247,6 +247,7 @@ int Application4::Clean()
 	 */ 
 	int	status = 0; 
 	delete m_pUserInput;
+	delete armadillion;
 	status |= GzFreeRender(m_pRender); 
 	status |= GzFreeDisplay(m_pDisplay);
 	

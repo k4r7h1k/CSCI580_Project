@@ -29,10 +29,8 @@ BEGIN_MESSAGE_MAP(CCS580HWView, CView)
 	ON_COMMAND(IDM_RENDER, OnRender)
 	ON_COMMAND(IDM_ROTATE, OnRotate)
 	ON_COMMAND(IDM_TRANSLATE, OnTranslate)
-	ON_COMMAND(IDM_SCALE, &CCS580HWView::OnScale)
-	ON_COMMAND(ID_RENDER_ANIMATE32779, &CCS580HWView::OnRenderAnimate32779)
+	ON_COMMAND(IDM_SCALE, OnScale)
 	//}}AFX_MSG_MAP
-	
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -59,22 +57,12 @@ BOOL CCS580HWView::PreCreateWindow(CREATESTRUCT& cs)
 
 	return CView::PreCreateWindow(cs);
 }
-void CCS580HWView::OnPrint(CDC *pDC, CPrintInfo *pInfo)
-{
-   UNREFERENCED_PARAMETER(pInfo);
 
-   // Print headers and/or footers, if desired. 
-   // Find portion of document corresponding to pInfo->m_nCurPage.
-   
-	   OnDraw(pDC);
-   
-}
 /////////////////////////////////////////////////////////////////////////////
 // CCS580HWView drawing
 
 void CCS580HWView::OnDraw(CDC* pDC)
 {
-	
 	CCS580HWDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	// TODO: add draw code for native data here
@@ -111,16 +99,15 @@ void CCS580HWView::OnRender()
 	// TODO: Add your command handler code here
 
 	// Call renderer 
-	
+
 	// Application 4
 	if(m_pApplication != NULL)
-		
-			((Application4 *)m_pApplication)->Render();
+		((Application4 *)m_pApplication)->Render();
 	else 
 		AfxMessageBox("Application was not allocated\n");
 
 	// Set window size
-	/*CRect clientRect, windowRect;
+	CRect clientRect, windowRect;
 	int x_offset, y_offset;
 
 	GetClientRect(&clientRect);
@@ -128,12 +115,10 @@ void CCS580HWView::OnRender()
 	
 	x_offset = windowRect.Width() - clientRect.Width();
 	y_offset = windowRect.Height() - clientRect.Height();
-	AfxGetMainWnd()->SetWindowPos(NULL, 0, 0, x_offset+m_pApplication->m_nWidth, y_offset+m_pApplication->m_nHeight, NULL);
-	*/
-	
+
+	AfxGetMainWnd()->SetWindowPos(NULL, 0, 0, x_offset+m_pApplication->m_nWidth, y_offset+m_pApplication->m_nHeight, NULL/*,SWP_SHOWWINDOW*/);
+
 	Invalidate(true);	
-	
-	
 }
 
 void CCS580HWView::DrawFrameBuffer(CDC *pDC)
@@ -196,18 +181,6 @@ void CCS580HWView::OnInitialUpdate()
 	
 	// Initialize and begin renderer
 	((Application4 *)m_pApplication)->Initialize();
-	// Set window size
-	CRect clientRect, windowRect;
-	int x_offset, y_offset;
-
-	GetClientRect(&clientRect);
-	AfxGetMainWnd()->GetWindowRect(&windowRect);
-	
-	x_offset = windowRect.Width() - clientRect.Width();
-	y_offset = windowRect.Height() - clientRect.Height();
-	AfxGetMainWnd()->SetWindowPos(NULL, 0, 0, x_offset+m_pApplication->m_nWidth, y_offset+m_pApplication->m_nHeight, NULL/*,SWP_SHOWWINDOW*/);
-	
-		((Application4 *)m_pApplication)->Render();
 }
 
 // Callback function for rotation  
@@ -333,13 +306,4 @@ void CCS580HWView::OnScale()
 		// Accumulate matrix
 		GzPushMatrix(m_pApplication->m_pRender, scaleMat); 
 	}
-}
-
-
-
-
-void CCS580HWView::OnRenderAnimate32779()
-{
-	// TODO: Add your command handler code here
-	while(true){OnRender();}
 }

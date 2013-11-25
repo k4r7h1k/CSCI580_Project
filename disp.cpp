@@ -2,9 +2,7 @@
 #include    "stdafx.h"  
 #include	"Gz.h"
 #include	"disp.h"
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
+
 
 int GzNewFrameBuffer(char** framebuffer, int width, int height)
 {
@@ -108,7 +106,7 @@ int GzPutDisplay(GzDisplay *display, int i, int j, GzIntensity r, GzIntensity g,
 /* write pixel values into the display */
 	if(display==NULL)
 		return GZ_FAILURE;
-	if(i<0 || i>=display->xres || j<0 || j>=display->yres)
+	if(i<0 || i>display->xres || j<0 || j>display->yres)
 		return GZ_SUCCESS;
 	if(display->fbuf[(j*display->xres)+i].z<z)
 		return GZ_SUCCESS;
