@@ -1,0 +1,104 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>CSCI580 project</title>
+  <meta name="description" content="Character Animation">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">CSCI580 project</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">Character Animation</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/k4r7h1k/CSCI580_Project/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/k4r7h1k/CSCI580_Project/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/k4r7h1k/CSCI580_Project" class="code">View CSCI580 project on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <p>Name: Karthik Srinivasan
+USC ID : 1928-0944-95
+USC Email: <a href="mailto:srinivak@usc.edu">srinivak@usc.edu</a></p>
+
+<p>Visual Studio 2010 Service Pack 1 Used, but I tried it in non sp version, it worked</p>
+
+<p>Procedure Followed for building Xsm matrix model:</p>
+
+<ol>
+<li>Initialized Xsp based on screen resolution</li>
+<li>Modified Xsp based on camera's field of view and pushed to stack</li>
+<li>Initialized Xpi based on camera's FOV and pushed to stack (after multiplying with previous top of stack)</li>
+<li>Xiw was built using camera's properties such as its position, look at point and world up coordinates</li>
+<li>Xiw was pushed to matrix
+a. Xwm was pushed by application to the stack</li>
+<li>Triangles coordinates are transformed using Xsm and checked if their vertices fall before the view plane and are discarded</li>
+<li>Remaining triangles are passed for rasterization</li>
+</ol><p>Procedure Followed for building Normal stack.
+1. Pushed 3 identity matrix into Xnorm (to keep the similarity between Xnorm and Ximage)
+2. Pushed Xiw for stripping scaling and translation vectors
+    a. Values in last column changed to 0,0,0,1
+    b. Scaling factor caculated by finding square root of sum of squares of element in any row/column
+    c. Normalized the matrix by dividing each element by scaling factor
+3. Every other subsequent matrices are stripped to unitary rotation matrix
+4. Normal coordinates are transformed using Xnorm stack and passed to rasterization</p>
+
+<p>Procedure Followed for Shading and Rasterization.
+1. Colour computed at normal of first vertices of triangle for Flat Shading.
+2. Sort vertices and normals pair using Y coordinates of vertices.
+3. Differentiate edge that need to be shaded by preference, Left over Right and Top over Bottom
+4. Store the edge vertices that need to shaded
+5. Sort vertices and normals pair using X Coordinates of vertices.
+6. determine the edges that need to be shaded using the vertices from (4)
+7. if User has choses Gouraud shading compute the colours at three vertices
+8. Construct Linear Equation for each edge line
+9. Construct planar equation by cross product
+10. Interpolate triangle from traversing from top left to bottom right of the rectangle that encloses the trianlge
+ a. check whether point lies inside the triangle or on the edge using (8)
+ b. Interpolate colour at the point or normals at the point (I used Barycentric interpolation)
+ c. Compute colour at this point if phong shading is chosen
+ b. Interpolate Z using (9)
+ c. Put the pixel into display buffer using the interpolated colour or colour computed for interpolate normals
+9. Deallocate Memory.</p>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/k4r7h1k" class="avatar"><img src="https://1.gravatar.com/avatar/8e2992dd404593d5ecc1f2b8ae28f7e9?d=https%3A%2F%2Fidenticons.github.com%2F429f140e20eb0dd5460b9cd89f2b6182.png&amp;r=x&amp;s=60" width="48" height="48"/></a> <a href="https://github.com/k4r7h1k">k4r7h1k</a> maintains <a href="https://github.com/k4r7h1k/CSCI580_Project">CSCI580 project</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="http://pages.github.com/">GitHub Pages</a><br/>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/k4r7h1k/CSCI580_Project/tarball/master" class="tar">tar</a><a href="https://github.com/k4r7h1k/CSCI580_Project/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
