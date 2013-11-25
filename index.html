@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>CSCI580 project by k4r7h1k</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>CSCI580 project</h1>
+        <p>Character Animation</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/k4r7h1k/CSCI580_Project" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/k4r7h1k/CSCI580_Project/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/k4r7h1k/CSCI580_Project/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <p>Name: Karthik Srinivasan
+USC ID : 1928-0944-95
+USC Email: <a href="mailto:srinivak@usc.edu">srinivak@usc.edu</a></p>
+
+<p>Visual Studio 2010 Service Pack 1 Used, but I tried it in non sp version, it worked</p>
+
+<p>Procedure Followed for building Xsm matrix model:</p>
+
+<ol>
+<li>Initialized Xsp based on screen resolution</li>
+<li>Modified Xsp based on camera's field of view and pushed to stack</li>
+<li>Initialized Xpi based on camera's FOV and pushed to stack (after multiplying with previous top of stack)</li>
+<li>Xiw was built using camera's properties such as its position, look at point and world up coordinates</li>
+<li>Xiw was pushed to matrix
+a. Xwm was pushed by application to the stack</li>
+<li>Triangles coordinates are transformed using Xsm and checked if their vertices fall before the view plane and are discarded</li>
+<li>Remaining triangles are passed for rasterization</li>
+</ol><p>Procedure Followed for building Normal stack.
+1. Pushed 3 identity matrix into Xnorm (to keep the similarity between Xnorm and Ximage)
+2. Pushed Xiw for stripping scaling and translation vectors
+    a. Values in last column changed to 0,0,0,1
+    b. Scaling factor caculated by finding square root of sum of squares of element in any row/column
+    c. Normalized the matrix by dividing each element by scaling factor
+3. Every other subsequent matrices are stripped to unitary rotation matrix
+4. Normal coordinates are transformed using Xnorm stack and passed to rasterization</p>
+
+<p>Procedure Followed for Shading and Rasterization.
+1. Colour computed at normal of first vertices of triangle for Flat Shading.
+2. Sort vertices and normals pair using Y coordinates of vertices.
+3. Differentiate edge that need to be shaded by preference, Left over Right and Top over Bottom
+4. Store the edge vertices that need to shaded
+5. Sort vertices and normals pair using X Coordinates of vertices.
+6. determine the edges that need to be shaded using the vertices from (4)
+7. if User has choses Gouraud shading compute the colours at three vertices
+8. Construct Linear Equation for each edge line
+9. Construct planar equation by cross product
+10. Interpolate triangle from traversing from top left to bottom right of the rectangle that encloses the trianlge
+ a. check whether point lies inside the triangle or on the edge using (8)
+ b. Interpolate colour at the point or normals at the point (I used Barycentric interpolation)
+ c. Compute colour at this point if phong shading is chosen
+ b. Interpolate Z using (9)
+ c. Put the pixel into display buffer using the interpolated colour or colour computed for interpolate normals
+9. Deallocate Memory.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/k4r7h1k">k4r7h1k</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
