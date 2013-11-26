@@ -187,9 +187,11 @@ GzMatrix	rotateY =
 	status |= GzPushMatrix(m_pRender, rotateY); 
 	status |= GzPushMatrix(m_pRender, rotateX); 
 	GzMatrix roty;
-	GzRotYMat(150,roty);
+	GzRotYMat(90,roty);
 	status |= GzPushMatrix(m_pRender, roty); 
-
+	GzCoord ccc={0,0,-0.5};
+	GzTrxMat(ccc,roty);
+	status |= GzPushMatrix(m_pRender, roty); 
 	if (status) exit(GZ_FAILURE); 
 
 	if (status) 
