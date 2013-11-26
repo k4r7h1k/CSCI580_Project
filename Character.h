@@ -39,7 +39,11 @@ public:
 		
 	}
 	void characterMoveHands(){
-		characterSkeleton.moveHands(5,2);
+		characterSkeleton.moveHands(2,1.5);
+		characterSkeleton.moveHands(14,1.5);
+		characterSkeleton.moveHands(11,1.5);
+		//characterSkeleton.moveHands(13,15);
+		//characterSkeleton.moveHands(3,2);
 	}
 
 };

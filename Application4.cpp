@@ -43,7 +43,7 @@ int Application4::Initialize()
 	_CrtDumpMemoryLeaks();
 	GzCamera	camera;  
 	int		xRes, yRes;		/* display parameters */ 
-	armadillion=new CharacterModel("Model14.obj","skeleton.out","attachment.out");
+	armadillion=new CharacterModel("Model8.obj","skeleton.out","attachment.out");
 	armadillion->characterMoveHands();
 	GzToken		nameListShader[9]; 	/* shader attribute names */
 	GzPointer   valueListShader[9];		/* shader attribute pointers */

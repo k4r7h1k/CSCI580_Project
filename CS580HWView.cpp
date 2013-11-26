@@ -107,16 +107,6 @@ void CCS580HWView::OnRender()
 		AfxMessageBox("Application was not allocated\n");
 
 	// Set window size
-	CRect clientRect, windowRect;
-	int x_offset, y_offset;
-
-	GetClientRect(&clientRect);
-	AfxGetMainWnd()->GetWindowRect(&windowRect);
-	
-	x_offset = windowRect.Width() - clientRect.Width();
-	y_offset = windowRect.Height() - clientRect.Height();
-
-	AfxGetMainWnd()->SetWindowPos(NULL, 0, 0, x_offset+m_pApplication->m_nWidth, y_offset+m_pApplication->m_nHeight, NULL/*,SWP_SHOWWINDOW*/);
 
 	Invalidate(true);	
 }
@@ -181,6 +171,18 @@ void CCS580HWView::OnInitialUpdate()
 	
 	// Initialize and begin renderer
 	((Application4 *)m_pApplication)->Initialize();
+	
+	CRect clientRect, windowRect;
+	int x_offset, y_offset;
+
+	GetClientRect(&clientRect);
+	AfxGetMainWnd()->GetWindowRect(&windowRect);
+	
+	x_offset = windowRect.Width() - clientRect.Width();
+	y_offset = windowRect.Height() - clientRect.Height();
+
+	AfxGetMainWnd()->SetWindowPos(NULL, 0, 0, x_offset+m_pApplication->m_nWidth, y_offset+m_pApplication->m_nHeight, NULL/*,SWP_SHOWWINDOW*/);
+	((Application4 *)m_pApplication)->Render();
 }
 
 // Callback function for rotation  

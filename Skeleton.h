@@ -150,10 +150,10 @@ public:
 	void moveHands(int i,int j){
 		if(isIdentityMatrix(rotation_Matrix[i]))
 		{
-			rotation_Matrix[i][0][0]=cos(-j*3.143/180);
-			rotation_Matrix[i][0][2]=sin(-j*3.143/180);
-			rotation_Matrix[i][2][0]=-sin(-j*3.143/180);
-			rotation_Matrix[i][2][2]=cos(-j*3.143/180);
+			rotation_Matrix[i][1][1]=cos(j*3.143/180);
+			rotation_Matrix[i][2][1]=sin(j*3.143/180);
+			rotation_Matrix[i][1][2]=-sin(j*3.143/180);
+			rotation_Matrix[i][2][2]=cos(j*3.143/180);
 		}
 		else setIdentityMatrix(rotation_Matrix[i]);
 	}
