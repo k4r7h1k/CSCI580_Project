@@ -39,7 +39,7 @@ public:
 		
 	}
 	void characterMoveHands(){
-		characterSkeleton.moveHands();
+		characterSkeleton.moveHands(5,2);
 	}
 
 };

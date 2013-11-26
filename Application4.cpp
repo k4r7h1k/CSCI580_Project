@@ -43,7 +43,7 @@ int Application4::Initialize()
 	_CrtDumpMemoryLeaks();
 	GzCamera	camera;  
 	int		xRes, yRes;		/* display parameters */ 
-	armadillion=new CharacterModel("arma2.obj","skeleton2.out","attachment2.out");
+	armadillion=new CharacterModel("Model14.obj","skeleton.out","attachment.out");
 	armadillion->characterMoveHands();
 	GzToken		nameListShader[9]; 	/* shader attribute names */
 	GzPointer   valueListShader[9];		/* shader attribute pointers */
@@ -80,9 +80,9 @@ int Application4::Initialize()
 /* Translation matrix */
 GzMatrix	scale = 
 { 
-	6,	0.0,	0.0,	0.0, 
-	0.0,	6,	0.0,	-3.25, 
-	0.0,	0.0,	6,	3.5, 
+	12,	0.0,	0.0,	0.0, 
+	0.0,	12,	0.0,	-3.25, 
+	0.0,	0.0,	12,	3.5, 
 	0.0,	0.0,	0.0,	1.0 
 }; 
  

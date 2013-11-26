@@ -147,15 +147,15 @@ public:
 		}
 		copyGzCoord(v,neww);
 	}
-	void moveHands(){
-		if(isIdentityMatrix(rotation_Matrix[9]))
+	void moveHands(int i,int j){
+		if(isIdentityMatrix(rotation_Matrix[i]))
 		{
-			rotation_Matrix[9][0][0]=cos(-20*3.143/180);
-			rotation_Matrix[9][0][2]=sin(-20*3.143/180);
-			rotation_Matrix[9][2][0]=-sin(-20*3.143/180);
-			rotation_Matrix[9][2][2]=cos(-20*3.143/180);
+			rotation_Matrix[i][0][0]=cos(-j*3.143/180);
+			rotation_Matrix[i][0][2]=sin(-j*3.143/180);
+			rotation_Matrix[i][2][0]=-sin(-j*3.143/180);
+			rotation_Matrix[i][2][2]=cos(-j*3.143/180);
 		}
-		else setIdentityMatrix(rotation_Matrix[9]);
+		else setIdentityMatrix(rotation_Matrix[i]);
 	}
 };
 #endif
