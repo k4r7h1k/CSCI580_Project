@@ -10,17 +10,84 @@
 #include "Gz.h"
 #include <iostream>
 using namespace std;
+#define degToRad(x) (x*3.14159/180) //Converts Degree to Radians
+void setIdentityMatrix(GzMatrix m)
+{
+	for(int i = 0; i < 4; i=i+1)
+		for(int j = 0; j < 4; j=j+1)
+			if(i == j)
+				m[i][j] = 1;
+			else
+				m[i][j] = 0;
+}
+
+int GzRotXMat(float degree, GzMatrix mat)
+{
+// Create rotate matrix : rotate along x axis
+// Pass back the matrix using mat value
+	setIdentityMatrix(mat);
+	mat[0][0]=1;
+	mat[3][3]=1;
+	degree=degToRad(degree);
+	mat[1][1]=cos(degree);
+	mat[1][2]=-1*sin(degree);
+	mat[2][1]=sin(degree);
+	mat[2][2]=cos(degree);
+	return GZ_SUCCESS;
+}
+int GzRotYMat(float degree, GzMatrix mat)
+{
+// Create rotate matrix : rotate along y axis
+// Pass back the matrix using mat value
+	setIdentityMatrix(mat);
+	degree=degToRad(degree);
+	mat[0][0]=cos(degree);
+	mat[0][2]=sin(degree);
+	mat[1][1]=1; mat[3][3]=1;
+	mat[2][0]=-1*sin(degree);
+	mat[2][2]=cos(degree);
+	return GZ_SUCCESS;
+}
+int GzRotZMat(float degree, GzMatrix mat)
+{
+// Create rotate matrix : rotate along z axis
+// Pass back the matrix using mat value
+	setIdentityMatrix(mat);
+	degree=degToRad(degree);
+	mat[0][0]=cos(degree);
+	mat[0][1]=-1*sin(degree);
+	mat[1][0]=sin(degree);
+	mat[1][1]=cos(degree);
+	mat[2][2]=mat[3][3]=1;
+
+	return GZ_SUCCESS;
+}
+bool isIdentityMatrix(GzMatrix m)
+{
+	for(int i = 0; i < 4; i=i+1)
+		for(int j = 0; j < 4; j=j+1)
+		{
+			if(i == j && m[i][j] != 1)
+				return false;
+			else if(i!=j && m[i][j] != 0)
+				return false;
+		}
+
+	return true;
+}
 
 /* */
 void transformVertices(GzCoord c,GzMatrix m){
+	if(isIdentityMatrix(m))
+		return;
 	float b[4];
-	for(int i=0;i<3;i++)
+	for(int i=0;i<3;i=i+1)
 	{
 		float a[4];a[0]=c[0];a[1]=c[1];a[2]=c[2];a[3]=1;
-		for(int j=0;j<4;j++)
+		for(int j=0;j<4;j=j+1)
 		{
 			b[j]=0;
-			for(int k=0;k<4;k++)
+			for(int k=0;k<4;k=k+1)
 			{
 				b[j]+=a[k]*m[j][k];
 			}
@@ -37,25 +104,11 @@ void transformVertices(GzCoord c,GzMatrix m){
 }
 void copyMatrices(GzMatrix m1, GzMatrix m2)
 {
-	for(int i = 0; i < 4; i++)
-		for(int j = 0; j < 4; j++) m1[i][j] = m2[i][j];
+	for(int i = 0; i < 4; i=i+1)
+		for(int j = 0; j < 4; j=j+1) m1[i][j] = m2[i][j];
 }
 
 /* */
-bool isIdentityMatrix(GzMatrix m)
-{
-	for(int i = 0; i < 4; i++)
-		for(int j = 0; j < 4; j++)
-		{
-			if(i == j && m[i][j] != 1)
-				return false;
-			else if(i!=j && m[i][j] != 0)
-				return false;
-		}
-
-	return true;
-}
-
 /* */
 void matrixMultiplication(GzMatrix T, GzMatrix R, GzMatrix result)
 {
@@ -71,12 +124,12 @@ void matrixMultiplication(GzMatrix T, GzMatrix R, GzMatrix result)
 		return;
 	}
 
-	for(int i = 0; i < 4; i++)
+	for(int i = 0; i < 4; i=i+1)
 	{
-		for(int j = 0; j < 4; j++)
+		for(int j = 0; j < 4; j=j+1)
 		{
 			result[i][j] = 0;
-			for(int k = 0; k < 4; k++)
+			for(int k = 0; k < 4; k=k+1)
 			{
 				result[i][j] += T[i][k] * R[k][j];
 			}
@@ -99,15 +152,6 @@ void matrixMultiplication(GzMatrix M, GzMatrix T, GzMatrix R, GzMatrix result)
 }
 
 /* */
-void setIdentityMatrix(GzMatrix m)
-{
-	for(int i = 0; i < 4; i++)
-		for(int j = 0; j < 4; j++)
-			if(i == j)
-				m[i][j] = 1;
-			else
-				m[i][j] = 0;
-}
 
 /* */
 void addTranslationMatrix(GzMatrix m, GzCoord c)
@@ -122,8 +166,8 @@ void addTranslationMatrix(GzMatrix m, GzCoord c)
 /* */
 void inverseTranslateCopyMatrix(GzMatrix m1, GzMatrix m2)
 {
-	for(int i = 0; i < 4; i++)
-		for(int j = 0; j < 4; j++) m1[i][j] = m2[i][j];
+	for(int i = 0; i < 4; i=i+1)
+		for(int j = 0; j < 4; j=j+1) m1[i][j] = m2[i][j];
 	m1[0][3] *= -1;
 	m1[1][3] *= -1;
 	m1[2][3] *= -1;

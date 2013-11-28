@@ -6,7 +6,6 @@
 #ifndef _SKELETON_H
 #define _SKELETON_H
 #include "Gz.h"
-#include "TriangleMesh.h"
 #include <iostream>
 #include <fstream>
 #include "GzMatrix.h"
@@ -71,21 +70,24 @@ public:
 		inverse_Matrix = new GzMatrix[bonecounter];
 		translation_Matrix = new GzMatrix[bonecounter];
 		rotation_Matrix = new GzMatrix[bonecounter];
-		for(int i = 0; i < numberOfBones; i++)
+		for(int i = 0; i < numberOfBones; i=i+1)
 		{
 			setIdentityMatrix(rotation_Matrix[i]);
 			setIdentityMatrix(translation_Matrix[i]);
 			addTranslationMatrix(translation_Matrix[i], tv[i + 1]);
 			inverseTranslateCopyMatrix(inverse_Matrix[i], TM[i]);
 		}
-
+		delete[] motion_Matrix;
+		calculateMotionMatrix();
 		delete[] TM;
 		delete[] tv;
 		delete[] b;
 	}
 	void calculateMotionMatrix(){
+		if(motion_Matrix!=NULL)
+			delete[] motion_Matrix;
 		motion_Matrix=new GzMatrix[numberOfBones];
-		for(int i=0;i<numberOfBones;i++)
+		for(int i=0;i<numberOfBones;i=i+1)
 		{
 			if(previousBone[i+1]==0)
 				matrixMultiplication(translation_Matrix[i],rotation_Matrix[i],motion_Matrix[i]);
@@ -98,19 +100,19 @@ public:
 	{
 		cout << "Number of Bones: " << numberOfBones;
 		cout << "Translation Matrix\n";
-		for(int i = 0; i < numberOfBones; i++)
+		for(int i = 0; i < numberOfBones; i=i+1)
 		{
 			printMatrix(translation_Matrix[i]);
 		}
 
 		cout << "Rotation Matrix\n";
-		for(int i = 0; i < numberOfBones; i++)
+		for(int i = 0; i < numberOfBones; i=i+1)
 		{
 			printMatrix(rotation_Matrix[i]);
 		}
 
 		cout << "Inverse Matrix\n";
-		for(int i = 0; i < numberOfBones; i++)
+		for(int i = 0; i < numberOfBones; i=i+1)
 		{
 			printMatrix(inverse_Matrix[i]);
 		}
@@ -120,7 +122,7 @@ public:
 	}
 	bool checkSkeleton(){
 		calculateMotionMatrix();
-		for(int i=0;i<numberOfBones;i++){
+		for(int i=0;i<numberOfBones;i=i+1){
 			GzMatrix temp;
 			matrixMultiplication(motion_Matrix[i],inverse_Matrix[i],temp);
 			printMatrix(temp);
@@ -129,14 +131,20 @@ public:
 		}
 		return true;
 	}
-	void transformVertex(int triangleNumber,float *weight,GzCoord v){
-		motionInverse=new GzMatrix[numberOfBones];
+	void transformVertex(float *weight,GzCoord v,GzCoord neww){
+		GzCoord temp;
+		initializeGzCoord(neww);
+		for(int i=0;i<numberOfBones;i=i+1){
+			copyGzCoord(temp,v);
+			transformVertices(temp,motionInverse[i]);
+			scalarGzCoord(temp,weight[i]);
+			addGzCoords(neww,temp);
+		}
+	}
+	void transformVertex(float *weight,GzCoord v){
 		GzCoord temp,neww;
 		initializeGzCoord(neww);
-		for(int i=0;i<numberOfBones;i++){
-			matrixMultiplication(motion_Matrix[i],inverse_Matrix[i],motionInverse[i]);
-		}
-		for(int i=0;i<numberOfBones;i++){
+		for(int i=0;i<numberOfBones;i=i+1){
 			copyGzCoord(temp,v);
 			transformVertices(temp,motionInverse[i]);
 			scalarGzCoord(temp,weight[i]);
@@ -144,15 +152,33 @@ public:
 		}
 		copyGzCoord(v,neww);
 	}
+	void calculateMotionInverse(){
+		if(motionInverse!=NULL)
+			delete[] motionInverse;
+		calculateMotionMatrix();
+		motionInverse=new GzMatrix[numberOfBones];
+		for(int i=0;i<numberOfBones;i=i+1){
+			matrixMultiplication(motion_Matrix[i],inverse_Matrix[i],motionInverse[i]);
+		}
+	}
+	void moveBoneX(int i,int j){
+		GzRotXMat(j,rotation_Matrix[i]);
+	}
+	void moveBoneY(int i,int j){
+		GzRotYMat(j,rotation_Matrix[i]);
+	}
+	void moveBoneZ(int i,int j){
+		GzRotZMat(j,rotation_Matrix[i]);
+	}
 	void moveHands(int i,int j){
-		if(isIdentityMatrix(rotation_Matrix[i]))
+		
 		{
 			rotation_Matrix[i][1][1]=cos(j*3.143/180);
 			rotation_Matrix[i][2][1]=sin(j*3.143/180);
 			rotation_Matrix[i][1][2]=-sin(j*3.143/180);
 			rotation_Matrix[i][2][2]=cos(j*3.143/180);
 		}
-		else setIdentityMatrix(rotation_Matrix[i]);
+		
 	}
 };
 #endif
