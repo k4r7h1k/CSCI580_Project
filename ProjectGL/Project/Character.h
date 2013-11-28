@@ -1,7 +1,7 @@
 #include "Gz.h"
 #include "Skeleton.h"
 #include "TriangleMesh.h"
-int angle=360,angle1=0;
+int angle1=360,angle2=0;
 class CharacterModel{
 public:
 	Skeleton characterSkeleton;
@@ -54,16 +54,20 @@ public:
 	void moveCharacter(){
 		//characterSkeleton.moveHands(2,1.5);
 		//characterSkeleton.moveHands(14,1.5);
-		characterSkeleton.moveBoneZ(17,angle+angle1);
-		if(angle==350){
-			angle1++;
-			if(angle1==10)
+		//characterSkeleton.moveBoneZ(10,angle+angle1);
+		//characterSkeleton.moveBoneX(10,angle+angle1);
+		//characterSkeleton.moveBoneY(10,angle+angle1);
+		int diff=5;
+		characterSkeleton.moveBoneY(11,angle1+angle2);
+		if(angle1==360-diff){
+			angle2++;
+			if(angle2==diff)
 			{
-				angle1=0;
-				angle=360;
+				angle2=0;
+				angle1=360;
 			}
 		}else
-			angle--;
+			angle1--;
 		//characterSkeleton.moveHands(13,15);
 		//characterSkeleton.moveHands(3,2);
 

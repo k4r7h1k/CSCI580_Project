@@ -48,7 +48,7 @@ void display()
 	glRotatef(g_rotation, 0, 1, 0);
 	obj.moveCharacter();
 	//glRotatef(90,0,1,0);
-	g_rotation += 5;
+	//g_rotation += 5;
 	obj.calculateMotionInverse();
 	glBegin(GL_TRIANGLES);
 	int trigNum=obj.getTriangleNumber();
@@ -201,6 +201,7 @@ int main(int argc, char **argv)
 	glutDisplayFunc(display);		// register Display Function
 	glutIdleFunc(display);			// register Idle Function
 	glutKeyboardFunc(keyboard);		// register Keyboard Handler
+
 	initialize();
 	//	obj.Load("arma2.obj");
 	glutMainLoop();					// run GLUT mainloop
