@@ -39,9 +39,9 @@ public:
 	void getVertexes(int triangleNumber,GzCoord C1,GzCoord C2,GzCoord C3,GzCoord N1,GzCoord N2,GzCoord N3){
 		TriangleVertex v1,v2,v3;
 		characterMesh.getTriangleVertices(triangleNumber,v1,v2,v3);
-		v1.getMVertex(C1);	v1.getVertexNormal(N1);
-		v2.getMVertex(C2);	v2.getVertexNormal(N2);
-		v3.getMVertex(C3);	v3.getVertexNormal(N3);
+		v1.getMVertex(C1);	v1.getMNormal(N1);
+		v2.getMVertex(C2);	v2.getMNormal(N2);
+		v3.getMVertex(C3);	v3.getMNormal(N3);
 		/*float *weights;
 		v1.getWeights(&weights);
 		characterSkeleton.transformVertex( weights,C1);

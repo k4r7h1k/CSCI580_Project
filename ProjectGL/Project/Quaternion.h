@@ -32,7 +32,7 @@ void scalarDualQuaternion(float s,GzDualQuaternion q,GzDualQuaternion r){
 	for(int i=0;i<4;i++)
 	{
 		r[0][i]=q[0][i]*s;
-		r[0][i]=q[1][i]*s;
+		r[1][i]=q[1][i]*s;
 	}
 }
 void addDualQuaternion(GzDualQuaternion q1,GzDualQuaternion q2,GzDualQuaternion result){
@@ -94,6 +94,7 @@ void dualQuaternionTransform(GzDualQuaternion *q, GzCoord v, GzCoord n, GzCoord 
 	for(int i=0;i<numberOfBones;i++){
 		GzDualQuaternion r;
 		scalarDualQuaternion(weights[i],q[i],r);
+
 		b[0][0]+=r[0][0];b[0][1]+=r[0][1];b[0][2]+=r[0][2];b[0][3]+=r[0][3];
 		b[1][0]+=r[1][0];b[1][1]+=r[1][1];b[1][2]+=r[1][2];b[1][3]+=r[1][3];
 	}

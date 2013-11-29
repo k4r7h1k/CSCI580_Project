@@ -5,6 +5,8 @@
 /*
  * universal constants
  */
+#ifndef _GZ_H_
+#define _GZ_H_
 #define GZ_SUCCESS      0
 #define GZ_FAILURE      1
 
@@ -36,7 +38,8 @@
 #define	GZ_FLAT  		0	/* flat shading with GZ_RBG_COLOR */
 #define	GZ_COLOR		1	/* interpolate vertex color */
 #define	GZ_NORMALS		2	/* interpolate normals */
-
+enum blendingMod{LINEARBLENDING,QUATERNIONBLENDING};
+blendingMod blendingMode=QUATERNIONBLENDING;
 typedef int     GzToken;
 typedef void    *GzPointer;
 typedef float   GzColor[3];
@@ -94,3 +97,4 @@ typedef struct  GzInput
 
 #define U       0        /* array indicies for texture coords */
 #define V       1
+#endif
