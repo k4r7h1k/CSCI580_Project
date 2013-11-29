@@ -1,4 +1,4 @@
-/*$T \Skeleton.h GC 1.150 2013-11-29 01:43:55 */
+/*$T \Skeleton.h GC 1.150 2013-11-29 05:23:54 */
 
 
 /*$6*/
@@ -86,6 +86,7 @@ public:
 			setIdentityMatrix(translation_Matrix1[i]);
 			addTranslationMatrix(translation_Matrix1[i], tv[i + 1]);
 			inverseTranslateCopyMatrix(inverse_Matrix[i], TM[i]);
+
 			GzQuaternion	q;
 			convertRotation2Quaternion(rotation_Matrix[i], q);
 			Quat2DualQuat(q, tv[i + 1], quaternions[i]);
@@ -177,6 +178,8 @@ public:
 			addGzCoords(neww, temp);
 		}
 	}
+
+	/* */
 	void transformVertex1(float *weight, GzCoord v, GzCoord neww)
 	{
 		GzCoord temp;
@@ -189,6 +192,7 @@ public:
 			addGzCoords(neww, temp);
 		}
 	}
+
 	/* */
 	void transformVertex(float *weight, GzCoord v, GzCoord n, GzCoord mV, GzCoord mN)
 	{
@@ -228,18 +232,17 @@ public:
 		}
 		else if(blendingMode == QUATERNIONBLENDING)
 		{
-			if(quaternions!=NULL)
-				delete[] quaternions;
-			quaternions =new GzDualQuaternion[numberOfBones];
+			if(quaternions != NULL) delete[] quaternions;
+			quaternions = new GzDualQuaternion[numberOfBones];
 			for(int i = 0; i < numberOfBones; i = i + 1)
 			{
-			GzQuaternion	q;
-			GzCoord tv;
-			tv[0]=translation_Matrix1[i][0][3];
-			tv[1]=translation_Matrix1[i][1][3];
-			tv[2]=translation_Matrix1[i][2][3];
-			convertRotation2Quaternion(rotation_Matrix[i], q);
-			Quat2DualQuat(q, tv, quaternions[i]);
+				GzQuaternion	q;
+				GzCoord			tv;
+				tv[0] = translation_Matrix[i][0][3];
+				tv[1] = translation_Matrix[i][1][3];
+				tv[2] = translation_Matrix[i][2][3];
+				convertRotation2Quaternion(rotation_Matrix[i], q);
+				Quat2DualQuat(q, tv, quaternions[i]);
 			}
 		}
 	}

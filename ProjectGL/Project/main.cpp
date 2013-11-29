@@ -43,6 +43,21 @@ void display()
 	glLoadIdentity();
 	GzCoord c1, c2, c3, n1, n2, n3;
 	gluLookAt(0, 1, 5, 0, 0, 0, 0, 1, 0);
+	glColor3f(1,0,0);
+	char s[100];
+	sprintf(s,"%s","Press r to toggle rotate");		
+	glRasterPos2f(-2.5,1.9);
+	for(int j=0;s[j]!=NULL;j++)		
+		glutBitmapCharacter(GLUT_BITMAP_8_BY_13,s[j]);	 	//Displays character by character
+
+	glRasterPos2f(-2.5,1.7);
+	if(blendingMode==LINEARBLENDING)
+		sprintf(s,"%s","Blending Mode: Linear Blending (Press b to change)");		
+	else
+		sprintf(s,"%s","Blending Mode: Dual Quaternion Blending (Press b to change)");		
+	
+	for(int j=0;s[j]!=NULL;j++)		
+		glutBitmapCharacter(GLUT_BITMAP_8_BY_13,s[j]);	 	//Displays character by character
 	glPushMatrix();
 	glColor3f(.6, .6, .6);
 	glTranslatef(transX, transY, transZ);
@@ -50,8 +65,6 @@ void display()
 	if(rotate_bool){
 	g_rotation += 5;}
 	obj.moveCharacter();
-	//glRotatef(90,0,1,0);
-	
 	obj.calculateMotionInverse();
 	glBegin(GL_TRIANGLES);
 	int trigNum=obj.getTriangleNumber();
@@ -179,6 +192,8 @@ void keyboard(unsigned char key, int x, int y)
 	{
 	case KEY_ESCAPE:	exit(0); break;
 	case 'r':	rotate_bool=!rotate_bool; break;
+	case 'b':	if(blendingMode==QUATERNIONBLENDING)blendingMode=LINEARBLENDING; 
+				else blendingMode=QUATERNIONBLENDING; break;
 	default:			break;
 	}
 }

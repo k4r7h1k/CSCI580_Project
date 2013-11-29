@@ -94,13 +94,14 @@ void dualQuaternionTransform(GzDualQuaternion *q, GzCoord v, GzCoord n, GzCoord 
 	for(int i=0;i<numberOfBones;i++){
 		GzDualQuaternion r;
 		scalarDualQuaternion(weights[i],q[i],r);
-
 		b[0][0]+=r[0][0];b[0][1]+=r[0][1];b[0][2]+=r[0][2];b[0][3]+=r[0][3];
 		b[1][0]+=r[1][0];b[1][1]+=r[1][1];b[1][2]+=r[1][2];b[1][3]+=r[1][3];
 	}
-	float magB=magnitudeQuaternion(b[0]);
+	float magB=sqrt(magnitudeQuaternion(b[0]));
 	GzDualQuaternion c;
 	scalarDualQuaternion(1/magB,b,c);
+	//magB=sqrt(magnitudeQuaternion(c[1]));
+	//scalarDualQuaternion(1/magB,c,c);
 	float t0=2*(-c[1][0]*c[0][1]+c[1][1]*c[0][0]-c[1][2]*c[0][3]+c[1][3]*c[0][2]);
 	float t1=2*(-c[1][0]*c[0][2]+c[1][1]*c[0][3]+c[1][2]*c[0][0]-c[1][3]*c[0][1]);
 	float t2=2*(-c[1][0]*c[0][3]-c[1][1]*c[0][2]+c[1][2]*c[0][1]+c[1][3]*c[0][0]);
@@ -117,6 +118,7 @@ void dualQuaternionTransform(GzDualQuaternion *q, GzCoord v, GzCoord n, GzCoord 
 	m[2][1]=(2*c[0][2]*c[0][3])-(2*c[0][0]*c[0][1]);
 	m[2][2]=1-(2*c[0][1]*c[0][1])-(2*c[0][2]*c[0][2]);
 	m[2][3]=t2;
+
 	for(int i=0;i<3;i++)
 	{
 		for(int j=0;j<1;j++)
@@ -127,7 +129,7 @@ void dualQuaternionTransform(GzDualQuaternion *q, GzCoord v, GzCoord n, GzCoord 
 			{
 				if(k!=3)
 				{mv[i]+=m[i][k]*v[k];
-				mn[i]+=m[i][k]*v[k];}
+				mn[i]+=m[i][k]*n[k];}
 				else{mv[i]+=m[i][k];
 				}
 			}
