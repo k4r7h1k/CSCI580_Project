@@ -9,14 +9,17 @@
 #include <iostream>
 #include <fstream>
 #include "GzMatrix.h"
+#include "Quaternion.h"
 using namespace std;
 class			Skeleton
 {
 	GzMatrix	*translation_Matrix;
+	GzMatrix	*translation_Matrix1;
 	GzMatrix	*rotation_Matrix;
 	GzMatrix	*inverse_Matrix;
 	GzMatrix	*motion_Matrix;
 	GzMatrix	*motionInverse;
+
 	int			*previousBone;
 	int			numberOfBones;
 
@@ -69,12 +72,15 @@ public:
 		numberOfBones = bn;
 		inverse_Matrix = new GzMatrix[bonecounter];
 		translation_Matrix = new GzMatrix[bonecounter];
+		translation_Matrix1 = new GzMatrix[bonecounter];
 		rotation_Matrix = new GzMatrix[bonecounter];
 		for(int i = 0; i < numberOfBones; i=i+1)
 		{
 			setIdentityMatrix(rotation_Matrix[i]);
 			setIdentityMatrix(translation_Matrix[i]);
 			addTranslationMatrix(translation_Matrix[i], tv[i + 1]);
+			setIdentityMatrix(translation_Matrix1[i]);
+			addTranslationMatrix(translation_Matrix1[i], tv[i + 1]);
 			inverseTranslateCopyMatrix(inverse_Matrix[i], TM[i]);
 		}
 		delete[] motion_Matrix;
@@ -90,9 +96,9 @@ public:
 		for(int i=0;i<numberOfBones;i=i+1)
 		{
 			if(previousBone[i+1]==0)
-				matrixMultiplication(translation_Matrix[i],rotation_Matrix[i],motion_Matrix[i]);
+				matrixMultiplication(translation_Matrix1[i],rotation_Matrix[i],motion_Matrix[i]);
 			else
-				matrixMultiplication(motion_Matrix[previousBone[i+1]-1],translation_Matrix[i],rotation_Matrix[i],motion_Matrix[i]);
+				matrixMultiplication(motion_Matrix[previousBone[i+1]-1],translation_Matrix1[i],rotation_Matrix[i],motion_Matrix[i]);
 		}
 	}
 	/* */
@@ -169,6 +175,12 @@ public:
 	}
 	void moveBoneZ(int i,int j){
 		GzRotZMat(j,rotation_Matrix[i]);
+	}
+	void translateXYZ(int i,float x,float y,float z){
+		translation_Matrix1[i][0][3]=translation_Matrix[i][0][3]+x;
+		translation_Matrix1[i][1][3]=translation_Matrix[i][1][3]+y;
+		translation_Matrix1[i][2][3]=translation_Matrix[i][2][3]+z;
+
 	}
 	void moveHands(int i,int j){
 		

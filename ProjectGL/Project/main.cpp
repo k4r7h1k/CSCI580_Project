@@ -34,7 +34,8 @@ typedef struct
 CharacterModel	obj;
 float			g_rotation;
 glutWindow		win;
-
+bool rotate_bool=true;
+float transX=0,transY=0,transZ=0;
 /* */
 void display()
 {
@@ -44,11 +45,13 @@ void display()
 	gluLookAt(0, 1, 5, 0, 0, 0, 0, 1, 0);
 	glPushMatrix();
 	glColor3f(.6, .6, .6);
-	//glTranslatef(0, -obj.characterMesh.pY, -obj.characterMesh.pZ);
+	glTranslatef(transX, transY, transZ);
 	glRotatef(g_rotation, 0, 1, 0);
+	if(rotate_bool){
+	g_rotation += 5;}
 	obj.moveCharacter();
 	//glRotatef(90,0,1,0);
-	//g_rotation += 5;
+	
 	obj.calculateMotionInverse();
 	glBegin(GL_TRIANGLES);
 	int trigNum=obj.getTriangleNumber();
@@ -61,6 +64,7 @@ void display()
 		glVertex3f(c2[0], c2[1], c2[2]);
 		glNormal3f(-n1[0], -n2[1], -n3[2]);
 		glVertex3f(c3[0], c3[1], c3[2]);
+
 	}
 
 	glEnd();
@@ -174,10 +178,21 @@ void keyboard(unsigned char key, int x, int y)
 	switch(key)
 	{
 	case KEY_ESCAPE:	exit(0); break;
+	case 'r':	rotate_bool=!rotate_bool; break;
 	default:			break;
 	}
 }
-
+void specialKeyboard(int key, int x, int y){
+	switch(key)
+	{
+	case GLUT_KEY_LEFT: transX+=.1;break;
+	case GLUT_KEY_RIGHT: transX-=.1;break;
+	case GLUT_KEY_DOWN: transZ-=.1;break;
+	case GLUT_KEY_UP: transZ+=.1;break;
+	case GLUT_KEY_PAGE_UP: transY-=.1;break;
+	case GLUT_KEY_PAGE_DOWN: transY+=.1;break;
+	}
+}
 /* */
 int main(int argc, char **argv)
 {
@@ -201,7 +216,7 @@ int main(int argc, char **argv)
 	glutDisplayFunc(display);		// register Display Function
 	glutIdleFunc(display);			// register Idle Function
 	glutKeyboardFunc(keyboard);		// register Keyboard Handler
-
+	glutSpecialFunc(specialKeyboard);
 	initialize();
 	//	obj.Load("arma2.obj");
 	glutMainLoop();					// run GLUT mainloop

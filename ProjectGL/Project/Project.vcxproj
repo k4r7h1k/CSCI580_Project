@@ -86,6 +86,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="Gz.h" />
     <ClInclude Include="GzMatrix.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="TriangleMesh.h" />
   </ItemGroup>

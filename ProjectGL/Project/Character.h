@@ -59,6 +59,10 @@ public:
 		//characterSkeleton.moveBoneY(10,angle+angle1);
 		int diff=5;
 		characterSkeleton.moveBoneY(11,angle1+angle2);
+		characterSkeleton.translateXYZ(18,-.1,0,diff/20);
+		characterSkeleton.translateXYZ(1,.1,0,diff/20);
+		characterSkeleton.moveBoneX(18,angle1+angle2);
+		characterSkeleton.moveBoneX(1,angle1+angle2);
 		if(angle1==360-diff){
 			angle2++;
 			if(angle2==diff)
