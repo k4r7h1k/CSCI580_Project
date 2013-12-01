@@ -11,6 +11,7 @@
 #include <fstream>
 #include "GzMatrix.h"
 #include "Quaternion.h"
+#include "GzMatrix.h"
 using namespace std;
 class			Skeleton
 {
@@ -91,8 +92,7 @@ public:
 			convertRotation2Quaternion(rotation_Matrix[i], q);
 			Quat2DualQuat(q, tv[i + 1], quaternions[i]);
 		}
-
-		delete[] motion_Matrix;
+		
 		calculateMotionMatrix();
 		delete[] TM;
 		delete[] tv;
@@ -103,18 +103,18 @@ public:
 	void calculateMotionMatrix()
 	{
 		if(motion_Matrix != NULL) delete[] motion_Matrix;
-		motion_Matrix = new GzMatrix[numberOfBones];
-		for(int i = 0; i < numberOfBones; i = i + 1)
+		motion_Matrix = new GzMatrix[21];
+	for(int i = 0; i < numberOfBones; i = i + 1)
 		{
 			if(previousBone[i + 1] == 0)
-				matrixMultiplication(translation_Matrix1[i], rotation_Matrix[i], motion_Matrix[i]);
+				matrixMultiplication( rotation_Matrix[i],translation_Matrix1[i], motion_Matrix[i]);
 			else
 			{
 				matrixMultiplication
 				(
 					motion_Matrix[previousBone[i + 1] - 1],
-					translation_Matrix1[i],
 					rotation_Matrix[i],
+					translation_Matrix1[i],
 					motion_Matrix[i]
 				);
 			}
@@ -131,16 +131,16 @@ public:
 			printMatrix(translation_Matrix[i]);
 		}
 
-		cout << "Rotation Matrix\n";
-		for(int i = 0; i < numberOfBones; i = i + 1)
-		{
-			printMatrix(rotation_Matrix[i]);
-		}
-
 		cout << "Inverse Matrix\n";
 		for(int i = 0; i < numberOfBones; i = i + 1)
 		{
 			printMatrix(inverse_Matrix[i]);
+		}
+		
+		cout << "Motion Matrix\n";
+		for(int i = 0; i < numberOfBones; i = i + 1)
+		{
+			printMatrix(motion_Matrix[i]);
 		}
 	}
 
@@ -220,9 +220,11 @@ public:
 	/* */
 	void calculateMotionInverse()
 	{
+		
 		if(blendingMode == LINEARBLENDING)
 		{
-			if(motionInverse != NULL) delete[] motionInverse;
+			if(motionInverse != NULL) 
+				delete[] motionInverse;
 			calculateMotionMatrix();
 			motionInverse = new GzMatrix[numberOfBones];
 			for(int i = 0; i < numberOfBones; i = i + 1)
@@ -234,14 +236,15 @@ public:
 		{
 			if(quaternions != NULL) delete[] quaternions;
 			quaternions = new GzDualQuaternion[numberOfBones];
+			calculateMotionMatrix();
 			for(int i = 0; i < numberOfBones; i = i + 1)
 			{
 				GzQuaternion	q;
 				GzCoord			tv;
-				tv[0] = translation_Matrix[i][0][3];
-				tv[1] = translation_Matrix[i][1][3];
-				tv[2] = translation_Matrix[i][2][3];
-				convertRotation2Quaternion(rotation_Matrix[i], q);
+				tv[0] = motion_Matrix[i][0][3];
+				tv[1] = motion_Matrix[i][1][3];
+				tv[2] = motion_Matrix[i][2][3];
+				convertRotation2Quaternion(motion_Matrix[i], q);
 				Quat2DualQuat(q, tv, quaternions[i]);
 			}
 		}
@@ -256,7 +259,11 @@ public:
 	/* */
 	void moveBoneY(int i, int j)
 	{
-		GzRotYMat(j, rotation_Matrix[i]);
+		//GzRotYMat(j, rotation_Matrix[i]);
+		rotation_Matrix[i][0][0]=cos(j*3.143/180);
+		rotation_Matrix[i][0][3]=sin(j*3.143/180);
+		rotation_Matrix[i][2][0]=-sin(j*3.143/180);
+		rotation_Matrix[i][2][2]=cos(j*3.143/180);
 	}
 
 	/* */

@@ -39,7 +39,7 @@
 #define	GZ_COLOR		1	/* interpolate vertex color */
 #define	GZ_NORMALS		2	/* interpolate normals */
 enum blendingMod{LINEARBLENDING,QUATERNIONBLENDING};
-blendingMod blendingMode=QUATERNIONBLENDING;
+blendingMod blendingMode=LINEARBLENDING;
 typedef int     GzToken;
 typedef void    *GzPointer;
 typedef float   GzColor[3];

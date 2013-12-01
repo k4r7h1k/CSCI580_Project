@@ -34,7 +34,7 @@ typedef struct
 CharacterModel	obj;
 float			g_rotation;
 glutWindow		win;
-bool rotate_bool=true;
+bool rotate_bool=false;
 float transX=0,transY=0,transZ=0;
 /* */
 void display()
@@ -215,7 +215,7 @@ int main(int argc, char **argv)
 	win.width = 640;
 	win.height = 480;
 	win.title = "Character Animation";
-	obj.loadModel("arma2.obj", "skeleton2.out", "attachment2.out");
+	obj.loadModel("Model8.obj", "skeleton.out", "attachment.out");
 
 	float	fdist = obj.characterMesh.pR / 0.57735f;
 	win.field_of_view_angle = 45;

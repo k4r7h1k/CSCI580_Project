@@ -351,10 +351,9 @@ public:
 			for(int i = 0; i < vertices.size(); i = i + 1)
 			{
 				GzCoord c;
-
 				skeleton.transformVertex1(vertices[i].weights,vertices[i].coordinates,c);
-				skeleton.transformVertex(vertices[i].weights,vertices[i].coordinates,vertices[i].vertexNormal, vertices[i].modifiedCoordinates,vertices[i].modifiedNormal);
-				//skeleton.transformVertex(vertices[i].weights,c,vertices[i].vertexNormal, vertices[i].modifiedCoordinates,vertices[i].modifiedNormal);
+				//skeleton.transformVertex(vertices[i].weights,vertices[i].coordinates,vertices[i].vertexNormal, vertices[i].modifiedCoordinates,vertices[i].modifiedNormal);
+				skeleton.transformVertex(vertices[i].weights,c,vertices[i].vertexNormal, vertices[i].modifiedCoordinates,vertices[i].modifiedNormal);
 			}
 		}
 	}

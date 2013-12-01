@@ -2,11 +2,8 @@
 
 
 /*$6*/
-
-
 #ifndef _GZMATRIX_H
 #define _GZMATRIX_H
-
 #include "Gz.h"
 #include <iostream>
 using namespace std;
@@ -81,31 +78,26 @@ void transformVertices(GzCoord c,GzMatrix m){
 	if(isIdentityMatrix(m))
 		return;
 	float b[4];
-	for(int i=0;i<3;i=i+1)
+	float a[4];a[0]=c[0];a[1]=c[1];a[2]=c[2];a[3]=1;
+	for(int j=0;j<4;j=j+1)
 	{
-		float a[4];a[0]=c[0];a[1]=c[1];a[2]=c[2];a[3]=1;
-		for(int j=0;j<4;j=j+1)
-		{
 			b[j]=0;
 			for(int k=0;k<4;k=k+1)
 			{
 				b[j]+=a[k]*m[j][k];
 			}
 			
-		}
+	}
 		
 		c[0]=b[0];
 		c[1]=b[1];
 		c[2]=b[2];
-	}
-	
-
-
 }
 void copyMatrices(GzMatrix m1, GzMatrix m2)
 {
 	for(int i = 0; i < 4; i=i+1)
-		for(int j = 0; j < 4; j=j+1) m1[i][j] = m2[i][j];
+		for(int j = 0; j < 4; j=j+1) 
+			m1[i][j] = m2[i][j];
 }
 
 /* */
@@ -123,7 +115,6 @@ void matrixMultiplication(GzMatrix T, GzMatrix R, GzMatrix result)
 		copyMatrices(result, R);
 		return;
 	}
-
 	for(int i = 0; i < 4; i=i+1)
 	{
 		for(int j = 0; j < 4; j=j+1)
@@ -145,10 +136,14 @@ void matrixMultiplication(GzMatrix M, GzMatrix T, GzMatrix R, GzMatrix result)
 		matrixMultiplication(M, T, result);
 		return;
 	}
-
+	if(isIdentityMatrix(T))
+	{
+		matrixMultiplication(M, R, result);
+		return;
+	}
 	GzMatrix	temp;
-	matrixMultiplication(T, R, temp);
-	matrixMultiplication(M, temp, result);
+	matrixMultiplication(M, T, temp);
+	matrixMultiplication( temp,R, result);
 }
 
 /* */

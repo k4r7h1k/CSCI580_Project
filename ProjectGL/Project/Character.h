@@ -11,6 +11,7 @@ public:
 		characterSkeleton.loadSkeletonFile(skeletonFile);
 		characterMesh.loadTriangleMesh(characterSkeleton.getNumberOfBones(),characterFile);
 		characterMesh.loadWeights(boneWeights);
+
 	}
 	CharacterModel(){
 	}
@@ -31,17 +32,26 @@ public:
 	}
 	void calculateMotionInverse(){
 		characterSkeleton.calculateMotionInverse();
-		modifyVertices();
-	}
-	void modifyVertices(){
 		characterMesh.modifyVertices(characterSkeleton);
 	}
 	void getVertexes(int triangleNumber,GzCoord C1,GzCoord C2,GzCoord C3,GzCoord N1,GzCoord N2,GzCoord N3){
 		TriangleVertex v1,v2,v3;
 		characterMesh.getTriangleVertices(triangleNumber,v1,v2,v3);
-		v1.getMVertex(C1);	v1.getMNormal(N1);
-		v2.getMVertex(C2);	v2.getMNormal(N2);
-		v3.getMVertex(C3);	v3.getMNormal(N3);
+		v1.getMVertex(C1);	
+		if(blendingMode==QUATERNIONBLENDING)
+			v1.getMNormal(N1);
+		else
+			v1.getVertexNormal(N1);
+		v2.getMVertex(C2);
+		if(blendingMode==QUATERNIONBLENDING)
+			v2.getMNormal(N2);
+		else
+			v2.getVertexNormal(N2);
+		v3.getMVertex(C3);
+		if(blendingMode==QUATERNIONBLENDING)
+			v3.getMNormal(N3);
+		else
+			v3.getVertexNormal(N3);
 		/*float *weights;
 		v1.getWeights(&weights);
 		characterSkeleton.transformVertex( weights,C1);
@@ -57,12 +67,13 @@ public:
 		//characterSkeleton.moveBoneZ(10,angle+angle1);
 		//characterSkeleton.moveBoneX(10,angle+angle1);
 		//characterSkeleton.moveBoneY(10,angle+angle1);
-		int diff=5;
-		characterSkeleton.moveBoneY(11,angle1+angle2);
-		characterSkeleton.translateXYZ(18,-.1,0,diff/20);
-		characterSkeleton.translateXYZ(1,.1,0,diff/20);
-		characterSkeleton.moveBoneX(18,angle1+angle2);
-		characterSkeleton.moveBoneX(1,angle1+angle2);
+		int diff=2;
+		characterSkeleton.moveBoneY(9,-angle1-angle2);
+	//	characterSkeleton.translateXYZ(9,-.35,0,0);
+	//	characterSkeleton.translateXYZ(14,.35,0,0);
+		characterSkeleton.moveBoneY(14,+angle1+angle2);
+	//	characterSkeleton.moveBoneX(1,angle1+angle2);
+	//	characterSkeleton.moveBoneX(18,angle1+angle2);
 		if(angle1==360-diff){
 			angle2++;
 			if(angle2==diff)
