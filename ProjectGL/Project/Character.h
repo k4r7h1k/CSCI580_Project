@@ -67,7 +67,7 @@ public:
 		//characterSkeleton.moveBoneZ(10,angle+angle1);
 		//characterSkeleton.moveBoneX(10,angle+angle1);
 		//characterSkeleton.moveBoneY(10,angle+angle1);
-		int diff=2;
+		int diff=20;
 		characterSkeleton.moveBoneY(9,-angle1-angle2);
 	//	characterSkeleton.translateXYZ(9,-.35,0,0);
 	//	characterSkeleton.translateXYZ(14,.35,0,0);

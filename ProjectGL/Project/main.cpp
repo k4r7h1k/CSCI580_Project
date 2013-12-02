@@ -32,7 +32,7 @@ typedef struct
 	float	z_far;
 } glutWindow;
 CharacterModel	obj;
-float			g_rotation;
+float			g_rotation=100;
 glutWindow		win;
 bool rotate_bool=false;
 float transX=0,transY=0,transZ=0;
@@ -64,6 +64,7 @@ void display()
 	glRotatef(g_rotation, 0, 1, 0);
 	if(rotate_bool){
 	g_rotation += 5;}
+
 	obj.moveCharacter();
 	obj.calculateMotionInverse();
 	glBegin(GL_TRIANGLES);
@@ -215,7 +216,7 @@ int main(int argc, char **argv)
 	win.width = 640;
 	win.height = 480;
 	win.title = "Character Animation";
-	obj.loadModel("Model8.obj", "skeleton.out", "attachment.out");
+	obj.loadModel("arma2.obj", "skeleton2.out", "attachment2.out");
 
 	float	fdist = obj.characterMesh.pR / 0.57735f;
 	win.field_of_view_angle = 45;
