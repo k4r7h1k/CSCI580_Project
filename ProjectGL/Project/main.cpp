@@ -52,9 +52,9 @@ void display()
 
 	glRasterPos2f(-2.5,1.7);
 	if(blendingMode==LINEARBLENDING)
-		sprintf(s,"%s","Blending Mode: Linear Blending (Press b to change)");		
+		sprintf(s,"%s","Blending Mode: Linear Blending");		
 	else
-		sprintf(s,"%s","Blending Mode: Dual Quaternion Blending (Press b to change)");		
+		sprintf(s,"%s","Blending Mode: Dual Quaternion Blending");		
 	
 	for(int j=0;s[j]!=NULL;j++)		
 		glutBitmapCharacter(GLUT_BITMAP_8_BY_13,s[j]);	 	//Displays character by character
