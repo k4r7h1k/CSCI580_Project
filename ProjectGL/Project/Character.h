@@ -62,18 +62,10 @@ public:
 		*/
 	}
 	void moveCharacter(){
-		//characterSkeleton.moveHands(2,1.5);
-		//characterSkeleton.moveHands(14,1.5);
-		//characterSkeleton.moveBoneZ(10,angle+angle1);
-		//characterSkeleton.moveBoneX(10,angle+angle1);
-		//characterSkeleton.moveBoneY(10,angle+angle1);
 		int diff=20;
+		//characterSkeleton.moveBoneZ(8,-angle1-angle2);
 		characterSkeleton.moveBoneY(9,-angle1-angle2);
-	//	characterSkeleton.translateXYZ(9,-.35,0,0);
-	//	characterSkeleton.translateXYZ(14,.35,0,0);
 		characterSkeleton.moveBoneY(14,+angle1+angle2);
-	//	characterSkeleton.moveBoneX(1,angle1+angle2);
-	//	characterSkeleton.moveBoneX(18,angle1+angle2);
 		if(angle1==360-diff){
 			angle2++;
 			if(angle2==diff)
@@ -83,9 +75,7 @@ public:
 			}
 		}else
 			angle1--;
-		//characterSkeleton.moveHands(13,15);
-		//characterSkeleton.moveHands(3,2);
-
+	
 	}
 
 };

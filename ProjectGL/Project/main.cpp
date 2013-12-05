@@ -1,8 +1,7 @@
-/*$T \main.cpp GC 1.150 2013-11-27 14:21:09 */
+/*$T \main.cpp GC 1.150 2013-12-03 13:53:25 */
 
 
 /*$6*/
-
 
 
 #include <iostream>
@@ -18,9 +17,6 @@
 
 using namespace std;
 
-/************************************************************************
-  Window
- ************************************************************************/
 typedef struct
 {
 	int		width;
@@ -32,44 +28,48 @@ typedef struct
 	float	z_far;
 } glutWindow;
 CharacterModel	obj;
-float			g_rotation=100;
+float			g_rotation = 100;
 glutWindow		win;
-bool rotate_bool=false;
-float transX=0,transY=0,transZ=0;
+bool			rotate_bool = false;
+bool			anima_bool	= true;
+float			transX = 0, transY = 0, transZ = 0;
+
 /* */
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
+
 	GzCoord c1, c2, c3, n1, n2, n3;
 	gluLookAt(0, 1, 5, 0, 0, 0, 0, 1, 0);
-	glColor3f(1,0,0);
-	char s[100];
-	sprintf(s,"%s","Press r to toggle rotate");		
-	glRasterPos2f(-2.5,1.9);
-	for(int j=0;s[j]!=NULL;j++)		
-		glutBitmapCharacter(GLUT_BITMAP_8_BY_13,s[j]);	 	//Displays character by character
+	glColor3f(1, 0, 0);
 
-	glRasterPos2f(-2.5,1.7);
-	if(blendingMode==LINEARBLENDING)
-		sprintf(s,"%s","Blending Mode: Linear Blending");		
+	char	s[100];
+	sprintf(s, "%s", "Press r to toggle rotate");
+	glRasterPos2f(-2.5, 1.9);
+	for(int j = 0; s[j] != NULL; j++) glutBitmapCharacter(GLUT_BITMAP_8_BY_13, s[j]);	//Displays character by character
+	glRasterPos2f(-2.5, 1.7);
+	if(blendingMode == LINEARBLENDING)
+		sprintf(s, "%s", "Blending Mode: Linear Blending");
 	else
-		sprintf(s,"%s","Blending Mode: Dual Quaternion Blending");		
-	
-	for(int j=0;s[j]!=NULL;j++)		
-		glutBitmapCharacter(GLUT_BITMAP_8_BY_13,s[j]);	 	//Displays character by character
+		sprintf(s, "%s", "Blending Mode: Dual Quaternion Blending");
+
+	for(int j = 0; s[j] != NULL; j++) glutBitmapCharacter(GLUT_BITMAP_8_BY_13, s[j]);	//Displays character by character
 	glPushMatrix();
 	glColor3f(.6, .6, .6);
 	glTranslatef(transX, transY, transZ);
 	glRotatef(g_rotation, 0, 1, 0);
-	if(rotate_bool){
-	g_rotation += 5;}
-
-	obj.moveCharacter();
+	if(rotate_bool)
+	{
+		g_rotation += 5;
+	}
+	if(anima_bool)
+		obj.moveCharacter();
 	obj.calculateMotionInverse();
 	glBegin(GL_TRIANGLES);
-	int trigNum=obj.getTriangleNumber();
-	for(int i = 0; i < trigNum; i=i+1)
+
+	int trigNum = obj.getTriangleNumber();
+	for(int i = 0; i < trigNum; i = i + 1)
 	{
 		obj.getVertexes(i, c1, c2, c3, n1, n2, n3);
 		glNormal3f(-n1[0], -n1[1], -n1[2]);
@@ -78,11 +78,12 @@ void display()
 		glVertex3f(c2[0], c2[1], c2[2]);
 		glNormal3f(-n1[0], -n2[1], -n3[2]);
 		glVertex3f(c3[0], c3[1], c3[2]);
-
 	}
 
 	glEnd();
-	/*glBegin(GL_LINES);
+	glPopMatrix();	/*
+	glBegin(GL_LINES);
+	glColor3f(1,0,0);
 	glVertex3f(-0.0881862,-0.223678,-0.929536); //1
 	glVertex3f(-0.566275,-0.541542,-0.899938);
 
@@ -145,8 +146,8 @@ void display()
 
 	glVertex3f(0.593214,-1.71593,-1.08845);
 	glVertex3f(0.982818,-1.82164,-0.622992);
-	glEnd();*/
-	glPopMatrix();
+	glEnd();
+	*/
 	glFlush();
 	glutSwapBuffers();
 }
@@ -191,24 +192,42 @@ void keyboard(unsigned char key, int x, int y)
 {
 	switch(key)
 	{
-	case KEY_ESCAPE:	exit(0); break;
-	case 'r':	rotate_bool=!rotate_bool; break;
-	case 'b':	if(blendingMode==QUATERNIONBLENDING)blendingMode=LINEARBLENDING; 
-				else blendingMode=QUATERNIONBLENDING; break;
-	default:			break;
+	case KEY_ESCAPE:
+		exit(0);
+		break;
+
+	case 'r':
+		rotate_bool = !rotate_bool;
+		break;
+	case 'l':
+		anima_bool = !anima_bool;
+		break;
+	case 'b':
+		if(blendingMode == QUATERNIONBLENDING)
+			blendingMode = LINEARBLENDING;
+		else
+			blendingMode = QUATERNIONBLENDING;
+		break;
+
+	default:
+		break;
 	}
 }
-void specialKeyboard(int key, int x, int y){
+
+/* */
+void specialKeyboard(int key, int x, int y)
+{
 	switch(key)
 	{
-	case GLUT_KEY_LEFT: transX+=.1;break;
-	case GLUT_KEY_RIGHT: transX-=.1;break;
-	case GLUT_KEY_DOWN: transZ-=.1;break;
-	case GLUT_KEY_UP: transZ+=.1;break;
-	case GLUT_KEY_PAGE_UP: transY-=.1;break;
-	case GLUT_KEY_PAGE_DOWN: transY+=.1;break;
+	case GLUT_KEY_LEFT:			transX += .1; break;
+	case GLUT_KEY_RIGHT:		transX -= .1; break;
+	case GLUT_KEY_DOWN:			transZ -= .1; break;
+	case GLUT_KEY_UP:			transZ += .1; break;
+	case GLUT_KEY_PAGE_UP:		transY -= .1; break;
+	case GLUT_KEY_PAGE_DOWN:	transY += .1; break;
 	}
 }
+
 /* */
 int main(int argc, char **argv)
 {
@@ -234,6 +253,7 @@ int main(int argc, char **argv)
 	glutKeyboardFunc(keyboard);		// register Keyboard Handler
 	glutSpecialFunc(specialKeyboard);
 	initialize();
+
 	//	obj.Load("arma2.obj");
 	glutMainLoop();					// run GLUT mainloop
 	return 0;
